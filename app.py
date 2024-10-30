@@ -37,7 +37,8 @@ if __name__ == "__main__":
 
 # כדי להריץ:
 # in the terminal
-# docker compose up --build
+# docker compose build
+# docker compose up
 # כדי לכבות:
 # docker compose down
 
