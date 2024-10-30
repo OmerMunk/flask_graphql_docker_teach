@@ -35,3 +35,11 @@ if __name__ == "__main__":
             port=5001)
 
 
+# כדי להריץ:
+# in the terminal
+# docker compose up --build
+# כדי לכבות:
+# docker compose down
+
+
+
