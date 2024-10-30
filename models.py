@@ -6,7 +6,8 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 user_subject_relation = Table(
-    'user_subject',
+    'user_subject_relation',
+    Base.metadata,
     Column('user_id', Integer, ForeignKey('users.id')),
     Column('subject_id', Integer, ForeignKey('subjects.id'))
 )
