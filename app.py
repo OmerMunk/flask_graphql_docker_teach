@@ -37,8 +37,14 @@ if __name__ == "__main__":
 
 # כדי להריץ:
 # in the terminal
+# docker compose down
+# למחוק את כל מה שקיים כרגע בקודר דסקטופ:
+
 # docker compose build
 # docker compose up
+# לגשת:
+# http://127.0.0.1:5001/graphql
+# לא משנה בפוסטמן או בדפדפן
 # כדי לכבות:
 # docker compose down
 
