@@ -14,6 +14,23 @@ with app.app_context():
     init_db()
 
 
+app.add_url_rule(
+    '/graphql',
+    view_func=GraphQLView.as_view(
+        'graphql',
+        #schema=,
+        graphiql=True
+    )
+)
 
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0',
+            # debug=True, #todo: maybe remove because we declared before.
+            port=5001)
 
 
