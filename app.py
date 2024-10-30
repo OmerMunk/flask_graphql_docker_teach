@@ -49,4 +49,12 @@ if __name__ == "__main__":
 # docker compose down
 
 
+# אחרי שהכל רץ, טוענים את ה data
+# לפתוח טרמינל חדש
+# להריץ את הפקודה:
+# docker-compose exec api bash
+# ואז להריץ בפנים את הפקודה:
+# python load_data.py
+
+
 
