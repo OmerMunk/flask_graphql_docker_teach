@@ -1,5 +1,5 @@
 from flask import session
-from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey, Index
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -46,7 +46,11 @@ class AddressModel(Base):
     __tablename__ = 'addresses'
     id = Column(Integer, primary_key=True)
     street = Column(String)
-    city = Column(String)
+    city = Column(String, index=True) # to create an index on a field
     house_num = Column(Integer)
 
     users = relationship("UserModel", back_populates="address")
+
+    __table_args__ = (
+        Index('ix_addresses_city_street', 'city', 'street'),
+    )

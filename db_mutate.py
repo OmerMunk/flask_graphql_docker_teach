@@ -8,7 +8,7 @@
 # IF YOU WANT TO CREATE A FOREIGN KEY CONSTRAINT FOR NEW TABLES, YOU CAN DEFINE IT IN models.py.
 
 
-from sqlalchemy import inspect, Table, Column, Integer, String, MetaData
+from sqlalchemy import inspect, Table, Column, Integer, String, MetaData, text
 from database import engine
 
 def run_migration():
@@ -66,8 +66,78 @@ def run_migration():
     finally:
         connection.close()
 
+
+################ INDEXING EXISTING FIELDS   ################
+# a script that creates an index on the 'name' column of the 'users' table.
+def index_users_name():
+    connection = engine.connect()
+    inspector = inspect(engine)
+
+    # Start a transaction
+    trans = connection.begin()
+    try:
+        # Get the list of indexes on the 'users' table
+        indexes = inspector.get_indexes('users')
+        index_names = [index['name'] for index in indexes]
+
+        # Define the index name
+        index_name = 'ix_users_name'
+
+        if index_name not in index_names:
+            # Add the index
+            connection.execute(text(f'CREATE INDEX {index_name} ON users (name)'))
+            print(f"Added index '{index_name}' on 'users(name)'.")
+        else:
+            print(f"Index '{index_name}' already exists on 'users' table.")
+
+        # Commit the transaction
+        trans.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        trans.rollback()
+    finally:
+        connection.close()
+
+
+# index city and street together
+def add_composite_index_addresses():
+    connection = engine.connect()
+    inspector = inspect(engine)
+
+    # Start a transaction
+    trans = connection.begin()
+    try:
+        # Get the list of indexes on the 'addresses' table
+        indexes = inspector.get_indexes('addresses')
+        index_names = [index['name'] for index in indexes]
+
+        # Define the index name
+        index_name = 'ix_addresses_city_street'
+
+        if index_name not in index_names:
+            # Add the composite index
+            connection.execute(text(f'CREATE INDEX {index_name} ON addresses (city, street)'))
+            print(f"Added composite index '{index_name}' on 'addresses(city, street)'.")
+        else:
+            print(f"Composite index '{index_name}' already exists on 'addresses' table.")
+
+        # Commit the transaction
+        trans.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        trans.rollback()
+    finally:
+        connection.close()
+
+
+
 if __name__ == '__main__':
     run_migration()
+    # index_users_name()
+    # add_composite_index_addresses()
+
+
+#
 
 
 

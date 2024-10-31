@@ -22,9 +22,12 @@ class Query(graphene.ObjectType):
     users_by_name = graphene.List(User, name_substring=graphene.String(required=True))
     subjects_by_name = graphene.List(Subject, name_substring=graphene.String(required=True))
     users_by_subject = graphene.List(User, subject_id=graphene.Int(required=True))
-    # subjects_by_user
-    # users_by_age
-    # users_by_age_range
+
+    subjects_by_user = graphene.List(Subject, user_id=graphene.Int(required=True))
+    users_by_age = graphene.List(User, age=graphene.Int(required=True))
+    users_by_age_range = graphene.List(User, min_age=graphene.Int(required=True), max_age=graphene.Int(required=True))
+    users_by_birth_date = graphene.List(User, birth_date=graphene.String(required=True))
+    users_by_country = graphene.List(User, country=graphene.String(required=True))
 
     def resolve_user_by_id(self, info, id):
         return db_session.query(UserModel).get(id)
