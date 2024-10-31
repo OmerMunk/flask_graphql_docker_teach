@@ -18,6 +18,8 @@ class UserModel(Base):
     name = Column(String)
     birth_date = Column(Date)
 
+    address_id = Column(Integer, ForeignKey('addresses.id'))
+
     subjects = relationship (
         "SubjectModel",
         secondary=user_subject_relation,
@@ -37,3 +39,14 @@ class SubjectModel(Base):
         secondary=user_subject_relation,
         back_populates="subjects"
     )
+
+
+
+class AddressModel(Base):
+    __tablename__ = 'addresses'
+    id = Column(Integer, primary_key=True)
+    street = Column(String)
+    city = Column(String)
+    house_num = Column(Integer)
+
+    users = relationship("UserModel", back_populates="address")
